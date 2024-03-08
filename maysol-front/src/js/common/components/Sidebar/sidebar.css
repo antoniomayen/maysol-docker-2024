@@ -1,0 +1,85 @@
+@import "../../../../style/configs/color.css";
+.sidebar {
+    position: fixed;
+    top: 61px;
+    width: 185px;
+    bottom: 0;
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat;
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, rgba(255, 255, 255, 1);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(80, 154, 174, 1)));
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#509aae', GradientType=0);
+    z-index: 500;
+    height: calc(100% - 61px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-weight: bold;
+    transition: width linear 0.2s;
+    .img-activo {
+        display: none;
+    }
+    .activo {
+        color: #fff;
+        font-weight: bold;
+        background-color: $secundario;
+        font-weight: normal;
+        /* border-left: 4px solid $gris-dark; */
+        .img-activo {
+            display: inline;
+        }
+        .img-inactivo {
+            display: none;
+        }
+    }
+    .activo-subitem{
+        color: #fff;
+        font-weight: bold;
+        background-color: $celeste;
+        font-weight: normal;
+        /* border-left: 4px solid $gris-dark; */
+        .img-activo {
+            display: inline;
+        }
+        .img-inactivo {
+            display: none;
+        }
+
+    }
+}
+.sidebar-small{
+    width: 60px !important;
+}
+.sidebar img.sub-item {
+    margin-right: 5px;
+}
+
+.sidebar img {
+    width: 35px;
+}
+
+.sidebar-item {
+    /* border-left: 4px solid transparent; */
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    align-items: center;
+    padding: 4px 10px;
+    color: $primario;
+}
+.blue-hover{
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    align-items: center;
+    padding: 4px 10px;
+}
+
+.imagen-sidebar {
+    img {
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 1);
+        border-radius: 50%;
+        width: 90px;
+    }
+}

@@ -1,0 +1,112 @@
+@import '../../../../../style/configs/color.css';
+
+.no-registros{
+    display: grid;
+    align-items: center;
+}
+
+.burbuja{
+    -webkit-box-flex: 0;
+    flex: 0 0 10.333333%;
+    max-width: 150px;
+}
+
+.centro{
+    display: grid;
+    grid-template-rows: 75px;
+}
+.gradient-block-vertical {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    border-radius: 100%;
+    width: 125px;
+    height: 125px;
+    position: relative;
+    box-sizing: border-box;
+    border: 10px solid transparent;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    background-image: linear-gradient(#fff, #fff), linear-gradient(#1489a9, #45315d);
+
+  }
+  .gradient-block-vertical::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 10px;
+    border-radius: 20px;
+    width: calc(45vw);
+    left: calc(100% + 9px);
+    top: calc(50% - 2px);
+    background: rgba(20,137,169,1);
+    background: -moz-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(20,137,169,1)), color-stop(100%, rgba(69,49,93,1)));
+    background: -webkit-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -o-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -ms-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: linear-gradient(to right, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1489a9', endColorstr='#45315d', GradientType=1 );
+  }
+  .titulo-caja{
+      color: #e24647;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-transform: uppercase;
+  }
+  .barra-divisoria{
+
+  }
+  .img-borderless{
+      width: 80px;
+      height: 80px;
+    background: url('../../../../../assets/img/mini-borderless.png')  no-repeat;
+  }
+
+/*==============header simple===================*/
+.fondo-simple{
+    background-image: url('../../../../../assets/img/mini-borderless.png');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.altura-card{
+    height: 95px;
+}
+.texto-instruccion{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: $gris-dark;
+}
+.barra-horizontal{
+    content: " ";
+    display: block;
+    position: absolute;
+    height: 10px;
+    border-radius: 20px;
+    width: 100%;
+    background: rgba(20,137,169,1);
+    background: -moz-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(20,137,169,1)), color-stop(100%, rgba(69,49,93,1)));
+    background: -webkit-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -o-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -ms-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: linear-gradient(to right, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1489a9', endColorstr='#45315d', GradientType=1 );
+}
+/*==============Fin Header simple==================*/
+
+@media only screen and (max-width: 576px) {
+    .fondo-simple{
+        background-image: none;
+    }
+    .gradient-block-vertical::after {
+        display: none;
+    }
+    .centro{
+        display: block;
+    }
+    .altura-card{
+        height: auto;
+    }
+}

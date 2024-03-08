@@ -1,0 +1,191 @@
+@import "./configs/color.css";
+
+.react-bs-container-header {
+    color: #fff;
+    text-transform: uppercase;
+
+    background: rgba(20,137,169,1);
+    background: -moz-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(20,137,169,1)), color-stop(100%, rgba(69,49,93,1)));
+    background: -webkit-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -o-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: -ms-linear-gradient(left, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    background: linear-gradient(to right, rgba(20,137,169,1) 0%, rgba(69,49,93,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1489a9', endColorstr='#45315d', GradientType=1 );
+}
+
+.table-bordered th, .table-bordered td {
+    border: 0 !important;
+}
+.react-bs-container-body tr:nth-child(even){
+    background-color: $gris;
+}
+.no-striped .react-bs-container-body tr:nth-child(even){
+    background-color: white;
+}
+.react-bs-container-body{
+    color: #343434;
+}
+.react-bs-table-bordered{
+    border: none !important;
+    border-radius: 0 !important;
+}
+.react-bs-table-tool-bar {
+    background-color: $gris;
+    border-radius: 5px;
+    padding: 8px 10px 10px 10px;
+}
+.react-bs-table{
+    font-style: italic;
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    border: 3px solid $gris !important;
+    border-top: 0px !important;
+
+}
+.td-column-string-example {
+    width: 250px !important;
+}
+.td-header-string-example{
+    width: 250px !important;
+}
+.td-column-descripcion-gastos {
+    width: 50% !important;
+    min-width: 250px !important;
+}
+.td-header-descripcion-gastos{
+    width: 50% !important;
+    min-width: 250px !important;
+}
+.react-bs-table-container {
+    font-size: 13px !important;
+    .react-bs-table table td, .react-bs-table table th {
+      text-overflow: unset;
+      overflow-wrap: break-word;
+      width: 130px;
+    }
+  }
+  .strikeout td:before {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-bottom: 2px solid red;
+    width: 100%;
+  }
+
+/* Paginaciones */
+.page-item:last-child .page-link{
+    border-top-right-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    font-style: normal !important;
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+    font-style: normal !important;
+}
+.page-link{
+    font-style: italic !important;
+    color: $gris-dark;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: $gris-dark;
+    background-color: $celeste;
+    border-color: $celeste;
+}
+.sin-borde-top {
+    border-top: 0px !important;
+}
+
+
+
+.tabla-70 {
+    .react-bs-container-body{
+        max-height: 70vh !important;
+    }
+}
+.tabla-5p .react-bs-container-body {
+    max-height: 31vh !important;
+}
+.tabla-103{
+    .react-bs-container-body{
+        max-height: 135vh !important;
+    }
+}
+.resumen-cf{
+    .react-bs-table {
+        font-style: italic;
+        /* border-bottom-left-radius: 20px !important; */
+        /* border-bottom-right-radius: 20px !important; */
+        /* border: 3px solid #ebebeb !important; */
+        border: 0px !important;
+    }
+    .react-bs-container-header {
+        border-top-left-radius: 1em !important;
+        border-top-right-radius: 1em !important;
+    }
+}
+/**
+* Para quitar el scroll horizontal de la tabla
+*/
+.tabla-auto{
+    .table-bordered {
+        min-width: auto !important;
+    }
+}
+
+.tabla-adentro .react-bs-container-header table thead {
+    color: #fff;
+    text-transform: uppercase;
+
+    background-color: $celeste;
+}
+
+
+/*
+    header gris
+*/
+.tabla-gris .react-bs-container-header {
+    background: $gris !important;
+    color: $primario !important;
+}
+
+.tabla-gris .react-bs-table{
+    border: 0px !important;
+
+}
+.tabla-gris .header-tabla{
+    background: $gris !important;
+    color: $primario !important;
+    height: 43px !important;
+}
+@media only screen and (max-width: 576px) {
+    .td-column-descripcion-gastos {
+        width: 250px !important;
+    }
+
+    .tabla-103{
+        .react-bs-container-body{
+            max-height: 60vh !important;
+        }
+    }
+}
+
+tr.clickable{
+    cursor: pointer;
+}
+
+.borde-derecho .react-bs-table{
+    border-top-right-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    border: 3px solid $gris !important;
+}
+
+.borde-derecho .react-bs-container-header {
+    border-top-right-radius: 1em !important;
+}

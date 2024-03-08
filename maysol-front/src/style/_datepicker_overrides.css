@@ -1,0 +1,35 @@
+
+.SingleDatePicker {
+    width: 100%;
+  }
+
+  .SingleDatePickerInput {
+    width: 100%;
+  }
+
+  .DateInput {
+    width: 100%;
+  }
+
+  .DateInput_input {
+    height: calc(2.25rem + 4px);
+  }
+
+  .is-invalid .SingleDatePickerInput {
+      border-color: #dc3545;
+  }
+
+  .is-invalid .invalid-feedback{
+      display: block;
+  }
+  .DateInput_input__focused {
+    outline: 0;
+    background: #fff;
+    border: 0;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0
+  }
+  .DateInput_input::placeholder {
+      color: #aaaaaa;
+  }

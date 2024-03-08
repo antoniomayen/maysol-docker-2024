@@ -1,0 +1,29 @@
+.container {
+    padding: 15px;
+}
+
+.select-reset div{
+
+}
+.select-reset > div {
+    border-width: 0 !important;
+    background-color: #FFF !important;
+}
+.form-control.is-invalid.select-reset > div {
+    border-color: #dc3545;
+}
+.form-control {
+    height: calc(2.25rem + 4px);
+}
+.form-control.disabled{
+    background-color: #e9ecef;
+    opacity: 1;
+}
+.is-invalid .invalid-feedback{
+    display: block;
+}
+
+div.is-invalid label.uploader{
+	outline-color: #dc3545 !important;
+    border-radius: 5px !important;
+}

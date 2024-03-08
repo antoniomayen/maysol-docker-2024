@@ -1,0 +1,32 @@
+@import "../../../../style/configs/color.css";
+
+.v-menu{
+    overflow: hidden;
+    position: absolute;
+    width: 185px;
+    min-height: calc(100vh - 80px);
+    -webkit-transition: width 0.4s;
+    -moz-transition: width 0.4s;
+    -ms-transition: width 0.4s;
+    -o-transition: width 0.4s;
+    transition: width 0.4s;
+
+}
+.v-menu.collapsed{
+    width: 0;
+}
+
+.v-menu-sucursal{
+    border-bottom: $gris 2px solid;
+    color: $primario !important;
+}
+.v-opcion{
+    color: $gris-dark;
+    padding: 10px 25px;
+}
+.v-opcion.active{
+    color: $primario;
+}
+.sidebar-item:focus{
+    outline: none !important;
+}

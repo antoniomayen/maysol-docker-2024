@@ -1,0 +1,143 @@
+@import "../../../../style/configs/color.css";
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 15px;
+    top: 15px;
+    z-index: 500 !important;
+}
+.sidebar-toggle{
+    margin-top: 7px;
+    margin-left: 5px;
+}
+@media only screen and (max-width: 768px) {
+    .bm-burger-button {
+        width: 40px;
+    }
+    .nav-logo{
+        display: none;
+    }
+    .topnavbar{
+        min-height: 61px;
+    }
+    .sidebar-toggle{
+        margin-top: 7px;
+        margin-left: 5px;
+    }
+    .nav{
+    .dd-menu{
+        margin-top: 6px !important;
+    }
+}
+}
+.sidebar-toggle {
+    position: absolute !important;
+    margin-top: 2px;
+    margin-left: 15px;
+    /*right: 0;*/
+    color: white !important;
+    /*z-index: 3001;*/
+}
+
+@media only screen and (min-width: 769px) {
+    .sidebar-toggle{
+        display: none !important;
+    }
+    .bm-burger-button{
+        display: none !important;
+    }
+}
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: white;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+    height: 24px;
+    width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+    background: $gris;
+}
+
+/* General sidebar styles */
+.bm-menu {
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat;
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, rgba(255, 255, 255, 1);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(80, 154, 174, 1)));
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    background: url('../../../../assets/img/sidebar/graficomenu.png') bottom no-repeat, linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(80, 154, 174, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#509aae', GradientType=0);
+
+    padding: 0;
+    font-size: 1.15em;
+}
+
+.bm-menu {
+  .img-activo {
+    display: none;
+  }
+  .activo {
+    color: #fff;
+    background-color: $secundario;
+    font-weight: normal;
+    /* border-left: 4px solid $gris-dark; */
+    .img-activo {
+      display: inline;
+    }
+    .img-inactivo {
+      display: none;
+    }
+  }
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+    color: #b8b7ad;
+    padding: 0;
+}
+
+.menu-item{
+    color: $gris;
+    margin: 14px 0 !important;
+}
+.bm-item-list .active{
+    color: $primario;
+}
+.bm-item-list em{
+    margin-right: 12px;
+    min-width: 20px;
+}
+.prenda img{
+    max-height: 58px;
+    position: absolute;
+    top: 0;
+}
+.menu-item img{
+    width: 25px;
+}
+.menu-item img.sub-item{
+    margin-right: 5px;
+}
+.menu-item em{
+    color: $primario;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}

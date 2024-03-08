@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  # Servicio de la base de datos MySQL
+  db-mysql:
+    image: mysql:8.0
+    platform: linux/x86_64
+    environment:
+      MYSQL_DATABASE: borderless
+      MYSQL_ROOT_PASSWORD: maysol123
+      MYSQL_PORT: '3306'    
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_datos:/var/lib/mysql
+    networks:
+      - mynetwork
+  # Otros servicios de tu aplicación, como el servicio web
+  maysol-django:
+    container_name: maysol-django
+    build: .       
+    command: gunicorn maysol.wsgi --bind  0.0.0.0:8000
+      #python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/code    
+    depends_on:
+      - db-mysql     
+    networks:
+      - mynetwork 
+# Servicio de phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/x86_64
+    environment:
+      PMA_HOST: db-mysql
+      MYSQL_ROOT_PASSWORD: maysol123
+    ports:
+      - "3000:80"    
+    networks:
+      - mynetwork
+      
+volumes:
+ mysql_datos:
+networks:
+  mynetwork:
+    driver: bridge
+
+
+  

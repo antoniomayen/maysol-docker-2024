@@ -1,0 +1,198 @@
+/* @import "../../node_modules/react-select/dist/react-select.css";
+@import "../../node_modules/react-bootstrap-table/dist/react-bootstrap-table.min.css";
+@import "_override.css"; */
+@import "../../node_modules/react-select/dist/react-select.css";
+@import "../../node_modules/react-bootstrap-table/dist/react-bootstrap-table.min.css";
+@import "_override.css";
+@import "configs/color";
+@import "bootstrap_reset.css";
+@import "_custom_global_styles.css";
+@import "_datepicker_overrides.css";
+@import "_custom_table.css";
+@import "_custom_buttons.css";
+@import "_custom_inputs.css";
+@import "_custom_timepicker.css";
+@import "_scrollbar.css";
+@import "configs/nv3.css";
+/*br {
+  border-top: 3px solid #3f87a6;
+  content: '';
+  display: block;
+  width: 100%;
+  margin: 5px 0 15px 0;
+}*/
+
+.no-ColorBac {
+    box-shadow: none!important;
+    background: none!important;
+    border: none!important;
+}
+
+.borderRoun {
+    border: 2px solid $primario;
+    border-radius: 25px;
+    padding: 5px;
+}
+
+.container {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+@media only screen and (max-width: 768px) {
+  .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* .content-wrapper {
+  position: absolute;
+  top: 76px;
+  width: 100%;
+} */
+
+
+
+h1, h2, h3 {
+  font-family: 'Ubuntu', sans-serif;
+  text-align: center;
+}
+
+
+
+/*Style preloader*/
+.loader-container{
+  min-height: 140px;
+}
+.loader {
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 7px solid #3498db;
+  width: 60px;
+  height: 60px;
+  left: 50%;
+  background-color: #e0e0e0;
+  position: absolute;
+  margin: 1rem 1rem 1rem -30px;
+  padding: 1rem;
+  -webkit-animation: spin 1.5s linear infinite; /* Safari */
+  animation: spin 1.5s linear infinite;
+}
+.small-loader {
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 7px solid #3498db;
+  width: 30px;
+  height: 30px;
+  background-color: #e0e0e0;
+  position: absolute;
+  padding: 1rem;
+  -webkit-animation: spin 1.5s linear infinite; /* Safari */
+  animation: spin 1.5s linear infinite;
+  margin: 1rem 1rem 1rem -30px;
+  left: 40%;
+}
+
+/**/
+.border-naranja{
+  border-radius: 1em;
+  border: 1px solid $primario;
+}
+.border-naranja-movil{
+  border-radius: 0;
+  border: 0;
+}
+
+/*Aplicar los estilos en movil*/
+@media only screen and (max-width: 576px) {
+    .border-naranja-movil{
+        border-radius: 1em;
+        border: 1px solid $primario;
+    }
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@media only screen and (min-width: 769px) {
+    .sidebar-toggle{
+        display: none !important;
+    }
+    .bm-burger-button{
+        display: none !important;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .container {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .sidebar {
+        display: none !important;
+    }
+    .content-wrapper {
+        left: 0 !important;
+        width: 100%;
+        padding: 5px 0 0;
+    }
+}
+.fixed-size-square-ganancias {
+  display: table;
+  width: 20px;
+  height: 20px;
+  background: $primario;
+}
+.fixed-size-square-costos {
+  display: table;
+  width: 20px;
+  height: 20px;
+  background: $rosado;
+}
+.horizontal-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+}
+.over-h{
+    overflow: hidden;
+}
+
+@media (max-width: 1062px) {
+    .card-ventas {
+        flex-wrap: wrap;
+        div {
+            width: 100% !important;
+            div {
+               margin: 0px;
+                p {
+                    width: initial !important;
+                }
+            }
+        }
+    }
+    [class*="nav-tabs"] li a h5 {
+        font-size: .6em !important;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .gradient-block-vertical::after {
+        display: none;
+    }
+}
+
+.tabla-margen {
+    td {
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+}

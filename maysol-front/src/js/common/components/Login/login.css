@@ -1,0 +1,185 @@
+.login-overlay .panel-body{
+    min-height: 244px;
+}
+.has-feedback{
+    position: relative;
+}
+.form-control-feedback{
+    right: 10px;
+    left: auto;
+    top: 10px;
+    position: absolute;
+}
+.login{
+    background: url('../../../../assets/img/login/bakground.png') #1d4651;
+    position: fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+}
+.login-container{
+    display: grid;
+    grid-template-areas: " login_logo login-form"
+}
+.login-form{
+    grid-area: login-form;
+    background: white;
+    margin-left: -120px;
+    display: grid;
+    align-items: center;
+    justify-content: end;
+    border-radius: 1em;
+    align-self: center;
+    opacity: 0;
+    height: 90%;
+    padding-right: 1em;
+    -webkit-box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+    -moz-box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+    box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+
+}
+.expand{
+    animation: expandForm 0.35s ease forwards;
+}
+.collapsed{
+    width: 0px !important;
+    opacity: 0;
+}
+.visible{
+    visibility: hidden;
+    animation-duration: .2s;
+    animation-name: expand;
+    animation-delay: .5;
+    animation-fill-mode: forwards;
+}
+.invisible{
+    display: none !important;
+}
+.login_logo{
+    grid-area: login_logo;
+    background: white;
+    border-radius: 50%;
+    height: 300px;
+    width: 300px;
+    display: grid;
+    justify-content: center;
+    z-index: 10;
+    align-content: center;
+    -webkit-box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+    -moz-box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+    box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+}
+.login_logo img {
+    width: 250px;
+}
+
+.login-form .panel-body{
+    width: 350px;
+}
+
+@keyframes expand {
+    0% {
+        opacity: 0;
+    }
+    75%{
+        visibility: visible;
+        opacity: 0;
+        width: 0px;
+    }
+    100%{
+        opacity: 1;
+        width: 350px;
+    }
+}
+@keyframes expandForm{
+    0%{
+        opacity: 0;
+        width: 0;
+    }
+    100%{
+        opacity: 1;
+        width: 500px;
+    }
+}
+@media (max-width: 576px) {
+    .login-container{
+        display: grid;
+        grid-template-areas: "login_logo"
+                            "login-form";
+        grid-template-columns: 300px;
+    }
+    .login{
+        overflow-y: auto;
+        animation: movercontainer 0.35 easy forwards;
+    }
+    .login-form{
+        grid-area: login-form;
+        background: white;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        border-radius: 1em;
+        align-self: center;
+        width: 300px;
+        margin: 0;
+        margin-top: -140px;
+        -webkit-box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+        -moz-box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+        box-shadow: 19px 21px 72px -27px rgba(77,77,77,1);
+        transition-property: height, opacity;
+        transition-duration: 0.35s, 0.15s;
+        transition-timing-function: ease;
+
+    }
+    .login-form .panel-body{
+        width: 90%;
+        display: grid;
+        align-content: end;
+        padding-bottom: 10px;
+    }
+    .expand{
+        width: 300px !important;
+        height: 200px !important;
+        opacity: 1;
+    }
+    .collapsed{
+        width: 300px !important;
+        height: 0px !important;
+        opacity: 0;
+    }
+    @keyframes expand {
+        0% {
+            opacity: 0;
+        }
+        75%{
+            visibility: visible;
+            opacity: 0;
+            height: 0px;
+        }
+        100%{
+            opacity: 1;
+            height: 400px;
+        }
+    }
+    @keyframes expandForm{
+        0%{
+            opacity: 0;
+            height: 0;
+        }
+        100%{
+            opacity: 1;
+            height: 400px;
+        }
+    }
+    @keyframes movercontainer {
+        0%{
+            -webkit-box-align: center !important;
+            align-items: center !important;
+        }
+        100%{
+            -webkit-box-align: start !important;
+            align-items: flex-start !important;
+        }
+    }
+}

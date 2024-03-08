@@ -1,0 +1,253 @@
+@import './configs/color.css';
+
+
+.form-control {
+    border-radius: 1em;
+    border: 0.1em solid $gris;
+}
+
+.form-control:focus {
+    border: 0.1em solid $celeste;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.form-control:active {
+    border: 0.1em solid $celeste;
+}
+
+.form-group label {
+    margin-top: 0px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: $gris-dark;
+}
+
+.label-radio {
+    padding: 0 10px;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid, .was-validated .custom-select:invalid, .custom-select.is-invalid {
+    border-color: $corinto;
+}
+.invalid-feedback {
+    display: none;
+    font-weight: bold;
+    font-style: italic;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: $corinto;
+}
+
+
+/* Configuración de selects*/
+select {
+    border-radius: 1em;
+}
+.Select-control{
+    border-radius: 1em;
+    border: 0.1em solid $gris;
+    height: calc(2.25rem + 4px);
+}
+.Select-menu-outer {
+    display: block !important;
+  border-bottom-right-radius: 1em !important;
+  border-bottom-left-radius: 1em !important;
+  background-color: #fff;
+  border: 1px solid $gris !important;
+  border-top-color: #e6e6e6;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-top: -1px;
+  max-height: 200px;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
+.Select-option:last-child {
+  border-bottom-right-radius: 1em !important;
+  border-bottom-left-radius: 1em !important;
+  border-bottom: 1px solid $gris !important;
+}
+.Select-menu{
+    border-bottom-right-radius: 1em !important;
+    border-bottom-left-radius: 1em !important;
+    border-bottom: 1px solid $gris !important;
+}
+.Select-option.is-selected {
+  color: white;
+
+  background-color: $primario !important;
+  /* Fallback color for IE 8 */
+  /* background-color: rgba(0, 126, 255, 0.04); */
+}
+.Select-option:hover {
+    background-color: $primario !important;
+    color: #ffffff !important;
+}
+.Select.is-searchable.is-focused:not(.is-open) > .Select-control {
+    border: 0px;
+    border-color: $gris !important;
+}
+.Select-value{
+    font-weight: normal !important;
+    color: #aaa !important;
+    padding-left: 10px !important
+}
+.select-reset > div{
+    background-color: transparent !important;
+}
+
+
+.Select-control:hover{
+    -webkit-box-shadow: 0 0px 0 rgba(0, 0, 0, .06);
+}
+.Select-option.is-focused{
+    background-color: white;
+}
+/*Configuración datepicker*/
+.SingleDatePickerInput__withBorder {
+    border-radius: 1em !important;
+    border: 0.1em solid $gris;
+}
+.DateInput{
+    background: transparent !important;
+}
+.CalendarDay__selected, .CalendarDay__selected:active, .CalendarDay__selected:hover {
+    background: $primario;
+    border: 1px double $primario;
+    color: #fff;
+}
+
+.DayPickerKeyboardShortcuts_show__bottomRight{
+    display: none;
+}
+.DateInput_input__focused {
+    border-radius: 1em !important;
+}
+.DateInput_input{
+    border-radius: 1em !important;
+    font-size: 1rem !important;
+}
+.is-invalid .SingleDatePickerInput{
+    border-color: $corinto;
+}
+
+/* Radio buttons*/
+.form-check label{
+    margin-right: 4px !important;
+}
+
+/*Colores del radiobutton*/
+input[type='radio'] {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    outline: none;
+    border: 3px solid gray;
+}
+
+input[type='radio']:before {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 60%;
+    margin: 20% auto;
+    border-radius: 50%;
+}
+
+input[type="radio"]:checked:before {
+    background: $primario;
+
+}
+
+input[type="radio"]:checked {
+  border-color: $primario;
+}
+/*  Checkbox */
+
+input[type='checkbox'] {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border: 3px solid gray;
+}
+
+input[type='checkbox']:before {
+
+    display: block;
+
+
+}
+
+input[type="checkbox"]:checked:before {
+    content: '✔';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top:0;
+    left: 2px;
+    color: #ffffff;
+    display: inline-block;
+    font-size: .8em;
+    background: $rosado;
+
+}
+
+input[type="checkbox"]:checked {
+    background: $rosado;
+  border-color: $rosado;
+}
+.role {
+    margin-right: 80px;
+    margin-left: 20px;
+    font-weight: normal;
+}
+
+.checkbox label {
+    margin-bottom: 20px !important;
+}
+
+.roles {
+    margin-bottom: 40px;
+}
+
+.textarea-grande textarea{
+    height: 180px !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000;
+  transition: background-color 5000s ease-in-out 0s;
+  background: #fff !important;
+}
+
+
+.Select-value-label {
+    display: contents!important;
+    font-size: 15px;
+    padding: 5px;
+}
+
+.Select-value-icon {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.Select-value {
+    padding: 0 !important;
+}

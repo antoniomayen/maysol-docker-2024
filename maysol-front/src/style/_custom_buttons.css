@@ -1,0 +1,238 @@
+@import './configs/color.css';
+button:focus{
+    outline: 1px auto;
+    outline-color: transparent;
+}
+button img{
+    margin-right: 5px;
+}
+.div-borde {
+    border-radius: 20px !important;
+    border: 1px solid #F69314 !important;
+    background: white;
+}
+.btn-borde {
+    display: inline-block!important;
+    text-align: center;
+    border-radius: 20px !important;
+    border: 1px solid #F69314 !important;
+    background: white;
+}
+.btn-estadocuenta{
+    width: 170px;
+    height: 37px;
+}
+.btn-normal {
+    width: auto !important;
+    min-width: 0 !important;
+}
+.btn-xs{
+    font-size: 1em;
+    height: 30px;
+    padding: 0.1rem 0.75rem;
+    min-width: 10px !important;
+}
+.btn {
+    border-radius: 2rem;
+    min-width: 120px;
+    font-weight: bold;
+}
+.btn-force {
+    border-radius: 2rem !important;
+    min-width: 120px !important;
+    font-weight: bold !important;
+}
+.btn-link{
+    background-color: transparent !important;
+    color: $rosado;
+}
+.btn-link:hover{
+    background-color: transparent !important;
+    color: $secundario;
+}
+.btn-link:active{
+    background-color: transparent !important;
+    color: $rosado;
+}
+
+.btn-gray{
+    background-color: $gris !important;
+    color: $verde;
+
+}
+.btn-gray:hover{
+    background-color: $gris !important;
+    color: $secundario;
+}
+.btn-gray:active{
+    background-color: $gris !important;
+    color: $verde;
+}
+
+/* ESTILO DE BOTON PRIMARIO*/
+.btn-primary{
+    background-color: $primario !important;
+    color: white !important;
+    border: 0px !important;
+}
+.btn-primary:hover{
+    background-color: $rosado !important;
+    border: 0px !important;
+}
+.btn-primary:active{
+    background-color: $secundario !important;
+    border: 0px;
+}
+.btn-primary:focus{
+    background-color: $primario !important;
+    border: 0px;
+}
+
+/* ESTILO DE BOTÓN SECUNDARIO*/
+.btn-secondary{
+    background-color: $secundario !important;
+    color: white !important;
+    border: 0px !important;
+}
+.btn-secondary:hover{
+    background-color: $rosado !important;
+    border: 0px !important;
+}
+.btn-secondary:active{
+    background-color: $celeste !important;
+    border: 0px !important;
+}
+.btn-secondary:focus{
+    background-color: $secundario !important;
+    border: 0px !important;
+}
+
+/* ESTILO DE BOTÓN GRIS*/
+.btn-gris{
+    background-color: $gris !important;
+    color: $gris-fuerte !important;
+    border: 0px !important;
+}
+.btn-gris:hover{
+    background-color: $rosado !important;
+    border: 0px !important;
+}
+.btn-gris:active{
+    background-color: $celeste !important;
+    border: 0px !important;
+}
+.btn-gris:focus{
+    background-color: $gris !important;
+    border: 0px !important;
+}
+
+
+
+.btn-danger{
+    background-color: $corinto;
+    border-color: transparent;
+    color: #ffffff;
+}
+.btn-danger:hover{
+    background-color: $secundario !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+.btn-danger:active{
+    background-color: $corinto !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+
+.btn-success{
+    background-color: $verde;
+    border-color: transparent;
+    color: #ffffff;
+}
+.btn-success:hover{
+    background-color: $primario !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+.btn-success:active{
+    background-color: $verde !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+
+.btn-rosado{
+    background-color: $rosado;
+    border-color: transparent;
+    color: #ffffff;
+}
+
+.btn-naranja {
+    background-color: $naranja;
+    border-color: transparent;
+    color: #ffffff;
+}
+
+.btn-rosado:hover, .btn-naranja:hover{
+    background-color: $secundario !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+.btn-rosadoo:active, .btn-naranja:active{
+    background-color: $rosado !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+
+
+.btn-celeste{
+    background-color: $celeste;
+    border-color: transparent;
+    color: #ffffff;
+}
+.btn-celeste:hover{
+    background-color: $secundario !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+.btn-celeste:active{
+    background-color: $corinto !important;
+    border-color: transparent !important;
+    color: #ffffff;
+}
+/* .btn-info{
+  background-color: $color-amarillo;
+  border-color: transparent !important;
+  color: white;
+}
+.btn-info:hover{
+  background-color: $color-amarillo-dark;
+  border-color: transparent !important;
+}
+.btn-info:active{
+  background-color: $color-amarillo-dark;
+  border-color: transparent !important;
+}
+.padding-0{
+    padding: 0 !important;
+}
+.btn a{
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 6px 12px;
+} */
+.btn-s {
+    border-radius: 2rem;
+    min-width: 121px;
+    height: 33px;
+    font-weight: bold;
+    padding: 0.315rem 0.75rem;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.btn-s:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}

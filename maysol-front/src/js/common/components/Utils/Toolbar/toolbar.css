@@ -1,0 +1,112 @@
+@import "../../../../../style/configs/color.css";
+
+
+.toolbar{
+    color: white;
+    font-size: 23px;
+    font-weight: bold;
+}
+.toolbar img{
+    max-width: 20px;
+}
+.toolbar .btn{
+    border: white solid 2px;
+    color: white;
+}
+.toolbar .btn:hover{
+    border: white solid 2px;
+}
+.toolbar .btn a:hover{
+    text-decoration: none;
+}
+
+.toolbar-search span{
+  color: $gris-dark;
+}
+.toolbar-search img{
+    max-width: 20px !important;
+}
+
+.toolbar-search {
+    font-size: 18px;
+}
+.toolbar-search .fa{
+    right: 20px !important;
+}
+.toolbar-search input{
+    background-color: white !important;
+    color: $gris-dark !important;
+}
+.toolbar-search input:focus{
+    background-color: white !important;
+    color: $gris-dark !important;
+}
+.toolbar .filtro{
+    font-size: 15px;
+    font-weight: normal;
+}
+.contenedor-search{
+    position: relative;
+    display: flex;
+}
+.contenedor-search input[type="text"] {
+    flex: 1;
+    border-radius:  1em;
+}
+.contenedor-search button {
+    position: absolute;
+    right: 1px !important;
+    top: 0px !important;
+    background: $secundario !important;
+    position: absolute;
+    top: 0px;
+    border-radius: 1em;
+    height: calc(2.25rem + 4px);
+    width: 4em;
+    border: 0px;
+}
+.titulo{
+    justify-content: left;
+    padding-left: 2em;
+}
+.subtitulo{
+    padding-left: 6px;
+    padding-top: 5px;
+    font-weight: 200;
+    font-style: italic;
+    text-transform: uppercase;
+    color: $gris-dark;
+}
+.search{
+    padding-left: 0px;
+}
+@media only screen and (max-width: 768px){
+    .titulo{
+        justify-content: center;
+    }
+    .search{
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .titulo{
+        justify-content: center;
+        padding: 0px;
+        width: 100%;
+    }
+    .titulo h3{
+        margin: 0px;
+    }
+    .subtitulo{
+        padding: 0px;
+        width: 100%;
+        display: block;
+        justify-content: center;
+        text-align: center;
+    }
+    .search{
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+}

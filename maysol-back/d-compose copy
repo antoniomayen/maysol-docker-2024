@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  # Servicio de la base de datos MySQL
+  mysql-db:
+    image: mysql:latest
+    environment:
+      MYSQL_USER: root
+      MYSQL_DATABASE: borderless
+      MYSQL_PASSWORD: maysol123
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - mynetwork
+
+  # Otros servicios de tu aplicación, como el servicio web
+  web:
+    build: 
+      context: .
+      target: python-builder
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql-db
+    environment:
+      - DB_ENGINE=django.db.backends.mysql
+      - DB_NAME=borderless
+      - DB_USER=root
+      - DB_PASSWORD=Mynewlife213.
+      - DB_HOST=mysql-db
+      - DB_PORT=3306
+    networks:
+      - mynetwork
+
+  frontend:
+    build:
+        context: .
+        target: node-builder
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
