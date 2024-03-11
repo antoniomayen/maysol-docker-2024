@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { renderSelectField } from '../../Utils/renderField';
-import { RenderCurrency } from '../../Utils/renderField/renderReadField'
+import { renderSelectField } from '../renderField';
+import { RenderCurrency } from '../renderField/renderReadField'
 import { Field } from 'redux-form';
 
 import './header.css';
