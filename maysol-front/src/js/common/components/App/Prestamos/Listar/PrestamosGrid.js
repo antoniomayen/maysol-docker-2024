@@ -8,7 +8,7 @@ import Table from 'Utils/Grid'
 import NumberFormat from "react-number-format";
 import ToolbarPrestamos from '../../../Utils/Toolbar/ToolbarPrestamos';
 import { dateFormatter, formatoMoneda } from '../../../Utils/renderField/renderReadField'
-import HeaderPrestamo from '../../../Utils/Headers/HeaderPrestamo';
+import HeaderPrestamo from '../../../Utils/Headers/headerPrestamo';
 import AnulacionForm from '../../Gastos/Crear/formanulacion';
 import Modal from 'react-responsive-modal';
 import LoadMask from 'Utils/LoadMask';
