@@ -130,7 +130,7 @@ module.exports = (
         <div className="container__content">
             <Switch>
                 <Route exact path="/login" component={Login} />
-                <Route path="/page" component={Privado} />
+                <ProtectedRoute path="/page" component={Privado} />
 
                 <ProtectedRoute path="/admin_categorias" component={CategoriaGrid}/>
                 <ProtectedRoute path="/admin_categoria/crear" component={CrearCategoria}/>
