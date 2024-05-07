@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   # Servicio de la base de datos MySQL
   db-mysql:
@@ -31,7 +29,8 @@ services:
     networks:
       - mynetwork 
 # Servicio de phpMyAdmin
-  phpmyadmin:
+  phpmyadmin-maysol:
+    container_name: phpmyadmin-maysol
     image: phpmyadmin/phpmyadmin
     platform: linux/x86_64
     environment:
@@ -57,7 +56,7 @@ services:
       - mynetwork
    # Servicio de proxy   
   nginx-maysol:
-    image: nginx:1.9.7
+    image: nginx:1.26.0
     platform: linux/x86_64
     ports:
      - "8081:80"

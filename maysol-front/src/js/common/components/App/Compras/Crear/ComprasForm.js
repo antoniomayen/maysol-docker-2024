@@ -528,8 +528,8 @@ const TablaProductos = (productos) => {
         <BootstrapTable
             data={_data}>
             <TableHeaderColumn tdStyle={BreakLine} thStyle={BreakLine} isKey={true}
-                dataFormat={ProductoNombre}
-                dataField="producto">Producto</TableHeaderColumn>
+                /*dataFormat={ProductoNombre}*///con esta linea no muestra nombre del producto
+                dataField="producto_nombre">Producto</TableHeaderColumn>
             <TableHeaderColumn tdStyle={BreakLine} thStyle={BreakLine}
                 dataField="cantidad" dataAlign="center">Cantidad</TableHeaderColumn>
             <TableHeaderColumn tdStyle={BreakLine} thStyle={BreakLine}
@@ -548,7 +548,7 @@ let CompraForm = props => {
     let no_modificar_pagos = false;
     let abonar = false;
     if(editar && updateData){
-        if (updateData.ingresado && updateData.pago_completo) {     
+        if (updateData.ingresado && updateData.pago_completo) {
             no_modificar = true;
             abonar = false;
         } else {
