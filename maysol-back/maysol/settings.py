@@ -38,7 +38,7 @@ CORS_ALLOW_HEADERS = (
     'withCredentials'
 )
 CORS_ALLOW_WHITELIST = [
-    'localhost:4200', 'localhost:8000'
+    'localhost:8081', 'localhost:8080'
 ]
 CORS_ALLOW_CREDENTIALS = True
 

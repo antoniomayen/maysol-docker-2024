@@ -1,6 +1,7 @@
 from backend.models import Producto, Fraccion, Usuario, MovimientoBodega,\
  DetalleMovBodega, Bodega, Movimiento, Lote, Inventario
 from backend.utils.exceptions import ErrorDeUsuario
+# type: ignore
 from django.db.models import Q, F, Sum
 import math
 
@@ -51,58 +52,93 @@ def calcularNumero(bodega, tipo):
 ########################################################
 ## Descripción: Reduce el producto en el invetario
 ########################################################
+import logging
+
 def reducirLote(lotes, movimiento, cantidad, capacidad, stock, bodega, detalleMov, hacia=None):
     try:
         cantidad = int(cantidad)
+        logging.info(f"Inicio de reducirLote con cantidad: {cantidad}, capacidad: {capacidad}, stock: {stock}, bodega: {bodega}")
+        
         if cantidad <= 0:
             detalleMov.cantidadActual = 0
             detalleMov.save()
+            logging.info(f"Cantidad <= 0. Detalle de movimiento actualizado: {detalleMov.cantidadActual}")
             return
-        lote = lotes.first()
-        movimiento.lotes.add(lote)
-        movimiento.save()
-        inventario = Inventario.objects.get(lote=lote, stock=stock)
-        cantidadInicial = inventario.cantidad
-        cantidadFinal = 0
 
-        if cantidad <= inventario.cantidad:
-            cantidadNuevo = cantidad - inventario.cantidad
-            cantidadMovimiento = inventario.cantidad - (inventario.cantidad - cantidad)
-            inventario.cantidad = inventario.cantidad - cantidad
-            inventario.save()
-            cantidadFinal = inventario.cantidad
-        else:
-            cantidadNuevo = cantidad - inventario.cantidad
-            cantidadMovimiento = inventario.cantidad
-            inventario.cantidad = 0
-            inventario.save()
-            cantidadFinal = inventario.cantidad
-        costo_unitario = 0
-        costo_total = 0
-        if inventario.costo_unitario > 0:
-            costo_unitario = inventario.costo_unitario
-            costo_total = costo_unitario * cantidadMovimiento
-        if hacia is not None:
-            inventario.costo_total = inventario.costo_unitario * inventario.cantidad
-            inventario.save()
-        detRow = DetalleMovBodega(
-            lote=lote,
-            stock=stock,
-            cantidadInicial=cantidadInicial,
-            cantidadFinal=cantidadFinal,
-            cantidad=cantidadMovimiento,
-            cantidadActual=cantidadMovimiento,
-            movimiento=movimiento,
-            costo_unitario=costo_unitario,
-            costo_total=costo_total
-        )
-        detRow.save()
-        lotes = lotes.exclude(id=lote.id)
-        detalleMov.cantidadActual = cantidadNuevo
-        detalleMov.save()
-        reducirLote(lotes, movimiento, cantidadNuevo,capacidad, stock, detalleMov, bodega)
-    except:
-        raise ErrorDeUsuario('No se puede realizar el despacho')
+        # Recorrer todos los lotes en lugar de obtener solo el primero
+        for lote in lotes:
+            logging.info(f"Procesando lote: {lote}")
+            movimiento.lotes.add(lote)
+            movimiento.save()
+
+            # Obtener el inventario correspondiente al lote y al stock
+            inventarios = Inventario.objects.filter(lote=lote, stock=stock)
+
+            for inventario in inventarios:
+                logging.info(f"Inventario inicial - Lote: {lote}, Stock: {stock}, Cantidad inicial: {inventario.cantidad}")
+
+                cantidadInicial = inventario.cantidad
+                cantidadFinal = 0
+
+                if cantidad <= inventario.cantidad:
+                    cantidadNuevo = cantidad - inventario.cantidad
+                    cantidadMovimiento = inventario.cantidad - (inventario.cantidad - cantidad)
+                    inventario.cantidad = inventario.cantidad - cantidad
+                    inventario.save()
+                    cantidadFinal = inventario.cantidad
+                    cantidad = 0  # Ya hemos cubierto la cantidad total solicitada
+                    logging.info(f"Cantidad procesada: {cantidadMovimiento}, Cantidad final en inventario: {cantidadFinal}")
+                else:
+                    cantidadNuevo = cantidad - inventario.cantidad
+                    cantidadMovimiento = inventario.cantidad
+                    inventario.cantidad = 0
+                    inventario.save()
+                    cantidadFinal = inventario.cantidad
+                    cantidad = cantidadNuevo  # Aún falta cubrir parte de la cantidad
+                    logging.info(f"No hay suficiente inventario, se movió todo el stock disponible. Cantidad restante: {cantidad}")
+
+                costo_unitario = 0
+                costo_total = 0
+                if inventario.costo_unitario > 0:
+                    costo_unitario = inventario.costo_unitario
+                    costo_total = costo_unitario * cantidadMovimiento
+                    logging.info(f"Costo unitario: {costo_unitario}, Costo total: {costo_total}")
+
+                if hacia is not None:
+                    inventario.costo_total = inventario.costo_unitario * inventario.cantidad
+                    inventario.save()
+                    logging.info(f"Inventario actualizado con costo total: {inventario.costo_total}")
+
+                # Crear el detalle de movimiento de bodega
+                detRow = DetalleMovBodega(
+                    lote=inventario.lote,
+                    stock=stock,
+                    cantidadInicial=cantidadInicial,
+                    cantidadFinal=cantidadFinal,
+                    cantidad=cantidadMovimiento,
+                    cantidadActual=cantidadMovimiento,
+                    movimiento=movimiento,
+                    costo_unitario=costo_unitario,
+                    costo_total=costo_total
+                )
+                detRow.save()
+                logging.info(f"Detalle de movimiento de bodega guardado: {detRow}")
+
+                # Actualizar el detalle del movimiento
+                detalleMov.cantidadActual = cantidadNuevo
+                detalleMov.save()
+                logging.info(f"DetalleMov actualizado con cantidad nueva: {detalleMov.cantidadActual}")
+
+                # Si ya se ha cubierto toda la cantidad requerida, se detiene el proceso
+                if cantidad <= 0:
+                    break
+
+    except Exception as e:
+        logging.error(f"Error en reducirLote: {e}")
+        raise ErrorDeUsuario(f'No se puede realizar el despacho, error: {e}')
+
+
+
     
 
 
