@@ -18,7 +18,7 @@ class Login extends PureComponent {
     state = {
         expanded: false,
         logo: require('assets/img/logoBorderless.png'),
-        fondo: require('assets/img/login/bakground.png'),
+        fondo: require('assets/img/login/bakground.webp'),
         color: '#45315d',
         colorH: '#e24647',
         nombre: 'Bordeless',

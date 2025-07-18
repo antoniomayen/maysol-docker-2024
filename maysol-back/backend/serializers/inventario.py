@@ -18,6 +18,7 @@ class InventarioSerializer(serializers.ModelSerializer):
 class InventarioReadSerializer(serializers.ModelSerializer):
     producto = serializers.SerializerMethodField("getProducto")
     # total = serializers.SerializerMethodField("getTotal")
+    total_costo_unitario = serializers.SerializerMethodField()
     class Meta:
         model = Inventario
         fields = [
@@ -26,7 +27,9 @@ class InventarioReadSerializer(serializers.ModelSerializer):
             'bodega',
             'stock',
             'producto',
-            'cantidad'
+            'cantidad',
+            'costo_unitario',      
+            'total_costo_unitario'
         ]
         depth=1
 
@@ -40,7 +43,9 @@ class InventarioReadSerializer(serializers.ModelSerializer):
     def getTotal(self, obj):
         total = Inventario.objects.filter(bodega=obj.bodega, stock=obj.stock).aggregate(Sum('cantidad'))['cantidad__sum']
         return float(total if total else 0)
-
+    def get_total_costo_unitario(self, obj):
+        # Calcula el total de costo unitario
+        return obj.cantidad * obj.costo_unitario
 
 class ProductosSelectSerializer(serializers.Serializer):
     stock = serializers.IntegerField(required=False)

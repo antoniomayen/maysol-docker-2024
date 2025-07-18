@@ -11,7 +11,7 @@
     position: absolute;
 }
 .login{
-    background: url('../../../../assets/img/login/bakground.png') #1d4651;
+    background: url('../../../../assets/img/login/bakground.webp') #1d4651;
     position: fixed;
    -webkit-background-size: cover;
    -moz-background-size: cover;

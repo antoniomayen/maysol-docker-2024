@@ -8,10 +8,17 @@ from backend.serializers import InventarioReadSerializer, InventarioSerializer, 
     ProductosVentaSerializer
 from backend.viewsets.serializer_mixin import SwappableSerializerMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
+
+class InventarioPagination(PageNumberPagination):
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+    page_size = 10  # Tamaño por defecto
 
 
 class InventarioViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    pagination_class = InventarioPagination
     queryset = Inventario.objects.all()
 
     filter_backends = (DjangoFilterBackend,
@@ -26,11 +33,18 @@ class InventarioViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         "stock__presentacion",
         "stock__producto__nombre"
     )
-
+   
     def get_queryset(self):
+        #print("Pará-meteros recibidos:", self.request.query_params)
+        # Obtiene todos los inventarios activos
         inventario = Inventario.objects.filter(activo=True).order_by("-lote__lote", "pk")
-        self.filter_queryset(inventario)
-        return inventario
+        
+        # Verifica si `cant_zero` está en los parámetros de la URL y aplica el filtro solo si está presente y es "true"
+        cant_zero = self.request.query_params.get('cant_zero', None)
+        if cant_zero == 'true':
+            inventario = inventario.filter(cantidad__gt=0).order_by("stock__producto__nombre")
+
+        return self.filter_queryset(inventario)
 
     def get_serializer_class(self):
         """Define serializer for API"""

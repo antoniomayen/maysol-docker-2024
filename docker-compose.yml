@@ -18,12 +18,12 @@ services:
     container_name: maysol-django
     build: 
       context: ./maysol-back       
-    command: gunicorn maysol.wsgi --bind  0.0.0.0:8000
+    command: gunicorn maysol.wsgi --bind  0.0.0.0:8000 --reload
       #python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
     volumes:
-      - .:/code    
+      - ./maysol-back:/app    
     depends_on:
       - db-mysql     
     networks:
@@ -36,6 +36,8 @@ services:
     environment:
       PMA_HOST: db-mysql
       MYSQL_ROOT_PASSWORD: maysol123
+      PMA_ABSOLUTE_URI: https://dbmaysol.granjasmaysol.com/
+      ENABLE_SSL: 1
     ports:
       - "3000:80"    
     networks:
