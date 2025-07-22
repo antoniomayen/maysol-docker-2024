@@ -28,16 +28,16 @@ function formatoAbonos(cell, row) {
     })}</div>
 }
 function montoFormater(cell, row) {
-    
+
     const pagos_monedas = {};
     row.detalle_movimiento.forEach((pago) => {
-      
+
         if(pagos_monedas.hasOwnProperty(pago.simbolo)){
             pagos_monedas[pago.simbolo] = pagos_monedas[pago.simbolo] + (parseFloat(pago.cantidad) * parseFloat(pago.precio_costo));
         } else {
             pagos_monedas[pago.simbolo] = (parseFloat(pago.cantidad) * parseFloat(pago.precio_costo));
         }
-  
+
     });
     return <div>{Object.keys(pagos_monedas).map((key) => {
         return <div key={key}>{formatoMoneda(pagos_monedas[key], key)}</div>
@@ -136,10 +136,10 @@ export default class ComprasGrid extends React.Component {
                     <TableHeaderColumn
                         dataAlign="right"
                         thStyle={BreakLine}
-                        dataFormat={formatoMoneda}
+                        dataFormat={subtotal}
                         columnClassName='text-derecha'
                         className='text-center'
-                        dataField="subtotal" dataSort dataFormat={subtotal}>Subtotal</TableHeaderColumn>
+                        dataField="subtotal" dataSort >Subtotal</TableHeaderColumn>
 
                 </BootstrapTable>
             </div>

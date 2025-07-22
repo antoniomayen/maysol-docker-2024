@@ -463,79 +463,98 @@ class MovimientoBodegaViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
             return
         if not lotes.count():
             raise ErrorDeUsuario("Revise la cantidad de productos a ingresar.")
-        lote = lotes.first()
-        movimiento.lotes.add(lote)
-        movimiento.save()
-        inventario = Inventario.objects.get(lote=lote, stock=stock)
-        cantidadInicial = inventario.cantidad
-        cantidadFinal = 0
+        
+        # Procesar cada lote
+        for lote in lotes:
+            if cantidad <= 0:
+                break
+                
+            movimiento.lotes.add(lote)
+            movimiento.save()
+            
+            # CAMBIO PRINCIPAL: Usar filter en lugar de get para manejar múltiples registros
+            inventarios = Inventario.objects.filter(lote=lote, stock=stock, bodega=bodega, activo=True)
+            
+            # Procesar cada inventario del lote
+            for inventario in inventarios:
+                if cantidad <= 0:
+                    break
+                    
+                cantidadInicial = inventario.cantidad
+                cantidadFinal = 0
 
-        if cantidad <= inventario.cantidad:
-            cantidadNuevo = cantidad - inventario.cantidad
-            cantidadMovimiento = inventario.cantidad - (inventario.cantidad - cantidad)
-            inventario.cantidad = inventario.cantidad - cantidad
-            inventario.save()
-            cantidadFinal = inventario.cantidad
-        else:
-            cantidadNuevo = cantidad - inventario.cantidad
-            cantidadMovimiento = inventario.cantidad
-            inventario.cantidad = 0
-            inventario.save()
-            cantidadFinal = inventario.cantidad
-        costo_unitario = 0
-        costo_total = 0
-        if inventario.costo_unitario > 0:
-            costo_unitario = inventario.costo_unitario
-            costo_total = costo_unitario * cantidadMovimiento
+                if cantidad <= inventario.cantidad:
+                    cantidadNuevo = cantidad - inventario.cantidad
+                    cantidadMovimiento = inventario.cantidad - (inventario.cantidad - cantidad)
+                    inventario.cantidad = inventario.cantidad - cantidad
+                    inventario.save()
+                    cantidadFinal = inventario.cantidad
+                    cantidad = 0  # Ya se cubrió toda la cantidad solicitada
+                else:
+                    cantidadNuevo = cantidad - inventario.cantidad
+                    cantidadMovimiento = inventario.cantidad
+                    inventario.cantidad = 0
+                    inventario.save()
+                    cantidadFinal = inventario.cantidad
+                    cantidad = cantidadNuevo  # Aún falta cubrir parte de la cantidad
+                    
+                costo_unitario = 0
+                costo_total = 0
+                if inventario.costo_unitario > 0:
+                    costo_unitario = inventario.costo_unitario
+                    costo_total = costo_unitario * cantidadMovimiento
 
-        responsable = inventario.lote.empresa
-        lineaR = inventario.lote.linea
-        costo_cargo = 0
-        if hacia is not None:
-            responsable = hacia
-            inventario.costo_total = inventario.costo_unitario * inventario.cantidad
-            inventario.save()
-            costo_cargo = inventario.costo_unitario * cantidad
-        if linea is not None:
-            lineaR = linea
-        if inventario.movimiento and inventario.movimiento.monto > 0:
-            movimiento_original = inventario.movimiento
-            movimiento_original.monto = movimiento_original.monto - costo_cargo
-            movimiento_original.save()
-        movimientoCosto = None
-        if contar == True and inventario.costo_unitario > 0 and costo_cargo > 0:
+                responsable = inventario.lote.empresa
+                lineaR = inventario.lote.linea
+                costo_cargo = 0
+                if hacia is not None:
+                    responsable = hacia
+                    inventario.costo_total = inventario.costo_unitario * inventario.cantidad
+                    inventario.save()
+                    costo_cargo = inventario.costo_unitario * cantidadMovimiento  # Cambio: usar cantidadMovimiento en lugar de cantidad
+                if linea is not None:
+                    lineaR = linea
+                    
+                if inventario.movimiento and inventario.movimiento.monto > 0:
+                    movimiento_original = inventario.movimiento
+                    movimiento_original.monto = movimiento_original.monto - costo_cargo
+                    movimiento_original.save()
+                    
+                movimientoCosto = None
+                if contar == True and inventario.costo_unitario > 0 and costo_cargo > 0:
+                    _moneda = Cuenta.QUETZAL
+                    if inventario.movimiento and inventario.movimiento.moneda:
+                        _moneda = inventario.movimiento.moneda
+                    movimientoCosto = Movimiento(
+                                    proyecto=responsable,
+                                    monto=costo_cargo,
+                                    precioUnitario=inventario.costo_unitario,
+                                    fecha=movimiento.fecha,
+                                    es_costo=True,
+                                    linea=lineaR,
+                                    usuario=movimiento.usuario,
+                                    padreCosto=inventario.movimiento,
+                                    moneda=_moneda
+                                )
+                    movimientoCosto.save()
+                    
+                detRow = DetalleMovBodega(
+                    lote=lote,
+                    stock=stock,
+                    cantidadInicial=cantidadInicial,
+                    cantidadFinal=cantidadFinal,
+                    cantidad=cantidadMovimiento,
+                    cantidadActual=cantidadMovimiento,
+                    movimiento=movimiento,
+                    costo_unitario=costo_unitario,
+                    costo_total=costo_total,
+                    movimientoCosto=movimientoCosto
+                )
+                detRow.save()
 
-            _moneda = Cuenta.QUETZAL
-            if inventario.movimiento and inventario.movimiento.moneda:
-                _moneda = inventario.movimiento.moneda
-            movimientoCosto = Movimiento(
-                            proyecto=responsable,
-                            monto=costo_cargo,
-                            precioUnitario=inventario.costo_unitario,
-                            fecha=movimiento.fecha,
-                            es_costo=True,
-                            linea=lineaR,
-                            usuario=movimiento.usuario,
-                            padreCosto=inventario.movimiento,
-                            moneda=_moneda
-                        )
-            movimientoCosto.save()
-        detRow = DetalleMovBodega(
-            lote=lote,
-            stock=stock,
-            cantidadInicial=cantidadInicial,
-            cantidadFinal=cantidadFinal,
-            cantidad=cantidadMovimiento,
-            cantidadActual=cantidadMovimiento,
-            movimiento=movimiento,
-            costo_unitario=costo_unitario,
-            costo_total=costo_total,
-            movimientoCosto=movimientoCosto
-        )
-        detRow.save()
-
-        lotes = lotes.exclude(id=lote.id)
-        self.reducir(lotes, movimiento, cantidadNuevo, stock, bodega)
+        # Si aún queda cantidad por cubrir después de procesar todos los lotes
+        if cantidad > 0:
+            raise ErrorDeUsuario(f"No hay suficiente inventario disponible. Falta por cubrir: {cantidad}")
 
     @list_route(methods=["put"], url_path="despachoBodega/(?P<pk>[0-9]+)")
     def despachoBodega(self, request, pk, *args, **kwargs):
@@ -956,4 +975,3 @@ class MovimientoBodegaViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
     ]
 }
 """
-

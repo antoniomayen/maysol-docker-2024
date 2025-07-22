@@ -508,7 +508,7 @@ export const render_Productos = ({fields, meta: {error, submitFailed},  simbolo,
     )
 };
 
-const ProductoNombre = (cell) => {
+/*const ProductoNombre = (cell) => {
     let nombre = ''
     try {
         nombre = cell.label
@@ -516,7 +516,7 @@ const ProductoNombre = (cell) => {
 
     }
     return (<span>{nombre}</span>)
-}
+}*/
 const TablaProductos = (productos) => {
     const _data = (productos !== undefined && productos !== null) ? productos.productos : [];
     const data = {results: _data};
@@ -693,8 +693,8 @@ let CompraForm = props => {
                                         valores.fecha.format("MM/DD/YYYY") || (typeof valores.fecha === 'string') && valores.fecha}</span></label>
                                     </div>
                                     <div className="col-12 col-md-4">
-                                        <label className="quit-uppercase text-m">Total compra:
-                                            <span className="text-primary text-uppercase text-m"> {formatoMoneda(total_products, simbolo)}</span></label>
+                                        <label className="quit-uppercase text-m">Monto compra:
+                                            <span className="text-primary text-uppercase text-m"> {formatoMoneda(valores.monto, simbolo)}</span></label>
                                     </div>
                                     <div className="col-12 col-md-12">
                                         <label className="quit-uppercase">Descripción:<span className="text-primary text-uppercase"> {valores.descripcion}</span></label>
@@ -702,6 +702,13 @@ let CompraForm = props => {
                                 </div>
                                 <div className="tabla-5p">
                                     <TablaProductos productos={valores.productos ? valores.productos : []}/>
+                                    <div className="row">
+                                        <div className="col-md-8"></div> {/* Espacio vacío para las primeras 3 columnas */}
+                                        <div className="col-md-4 text-right">
+                                            <label className="quit-uppercase text-m p-3">Suma sub total:
+                                                <span className="text-primary text-uppercase text-m"> {formatoMoneda(total_products, simbolo)}</span></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             {/*Fin datos del tab anterior*/}
