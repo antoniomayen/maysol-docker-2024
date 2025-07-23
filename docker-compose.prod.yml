@@ -1,0 +1,95 @@
+services:
+  # Base de datos MySQL - misma configuración
+  db-mysql:
+    image: mysql:8.0
+    platform: linux/x86_64
+    environment:
+      MYSQL_DATABASE: borderless
+      MYSQL_ROOT_PASSWORD: maysol123
+      MYSQL_PORT: '3306'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_datos:/var/lib/mysql
+    networks:
+      - mynetwork
+    restart: unless-stopped
+
+  # Backend Django - configuración de producción
+  maysol-django:
+    container_name: maysol-django-prod
+    build:
+      context: ./maysol-back
+      dockerfile: Dockerfile.prod  # Nuevo Dockerfile optimizado
+    command: gunicorn maysol.wsgi --bind 0.0.0.0:8000 --workers 3 --timeout 120
+    environment:
+      - DJANGO_SETTINGS_MODULE=maysol.settings_prod
+      - DEBUG=False
+      - ALLOWED_HOSTS=*
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./maysol-back/static:/app/static
+      - ./maysol-back/media:/app/media
+    depends_on:
+      - db-mysql
+    networks:
+      - mynetwork
+    restart: unless-stopped
+
+  # Frontend React - construcción para producción
+  front-redux:
+    container_name: front-redux-prod
+    build:
+      context: ./maysol-front
+      dockerfile: Dockerfile.prod  # Nuevo Dockerfile optimizado
+    ports:
+      - "8080:80"  # Servir con nginx interno
+    networks:
+      - mynetwork
+    restart: unless-stopped
+
+  # phpMyAdmin (opcional para producción)
+  phpmyadmin-maysol:
+    container_name: phpmyadmin-maysol-prod
+    image: phpmyadmin/phpmyadmin
+    platform: linux/x86_64
+    environment:
+      PMA_HOST: db-mysql
+      MYSQL_ROOT_PASSWORD: maysol123
+      PMA_ABSOLUTE_URI: https://dbmaysol.granjasmaysol.com/
+      ENABLE_SSL: 1
+    ports:
+      - "3000:80"
+    networks:
+      - mynetwork
+    restart: unless-stopped
+    # Comentar las siguientes líneas para deshabilitar en producción
+    # profiles:
+    #   - debug
+
+  # Proxy nginx - configuración optimizada
+  nginx-maysol:
+    container_name: nginx-maysol-prod
+    image: nginx:1.26.0-alpine  # Versión más liviana
+    platform: linux/x86_64
+    ports:
+      - "8081:80"   # Solo puerto 8081 (que usas actualmente)
+    volumes:
+      - ./nginx/nginx-prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro  # Para certificados SSL
+      - ./maysol-back/static:/var/www/static:ro  # Servir archivos estáticos
+      - ./maysol-back/media:/var/www/media:ro    # Servir archivos media
+    depends_on:
+      - maysol-django
+      - front-redux
+    networks:
+      - mynetwork
+    restart: unless-stopped
+
+volumes:
+  mysql_datos:
+
+networks:
+  mynetwork:
+    driver: bridge

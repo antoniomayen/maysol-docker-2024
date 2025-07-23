@@ -1,0 +1,46 @@
+# Dockerfile.prod para backend
+FROM python:3.6-slim  
+
+# Variables de entorno
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Instalar dependencias del sistema
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        default-libmysqlclient-dev \
+        pkg-config \
+        libxml2-dev \
+        libxslt-dev \
+        python3-dev \
+        libssl-dev \
+        libffi-dev \
+        zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crear directorio de trabajo
+WORKDIR /app
+
+# Copiar requirements original (que funciona) y instalar dependencias
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar código de la aplicación
+COPY . /app/
+
+# Crear directorios para archivos estáticos y media
+RUN mkdir -p /app/static /app/media
+
+# Recopilar archivos estáticos (comentado hasta crear settings_prod.py)
+# RUN python manage.py collectstatic --noinput --settings=maysol.settings_prod
+
+# Crear usuario no-root
+RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
+USER appuser
+
+# Exponer puerto
+EXPOSE 8000
+
+# Comando por defecto
+CMD ["gunicorn", "maysol.wsgi", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120"]

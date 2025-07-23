@@ -9,11 +9,21 @@ import HeaderSimple from '../../../Utils/Headers/HeaderSimple';
 import { BootstrapTable } from 'react-bootstrap-table';
 import Swal from 'sweetalert2';
 
+// Configuración para el módulo de compras
+const STORAGE_KEY = 'compras_current_page';
+const MODULE_KEY = 'current_module';
+const COMPRAS_MODULE = 'compras_module';
+
+// Utilidad para detectar si estamos en el módulo de compras
+const isInComprasModule = () => {
+    const path = window.location.hash || window.location.pathname;
+    return path.includes('/compra'); // Detecta /compras, /compra/123, /compra/crear, etc.
+};
+
 function formatoAbonos(cell, row) {
     const pagos_monedas = {};
     row.pagos.forEach((pago) => {
         if (!isNaN(pago.monto)){
-            // No sumar si esta anulado
             if (!pago.anulado){
                 if(pagos_monedas.hasOwnProperty(pago.simbolo)){
                     pagos_monedas[pago.simbolo] = pagos_monedas[pago.simbolo] + parseFloat(pago.monto);
@@ -27,48 +37,51 @@ function formatoAbonos(cell, row) {
         return <div key={key}>{formatoMoneda(pagos_monedas[key], key)}</div>
     })}</div>
 }
-function montoFormater(cell, row) {
 
+function montoFormater(cell, row) {
     const pagos_monedas = {};
     row.detalle_movimiento.forEach((pago) => {
-
         if(pagos_monedas.hasOwnProperty(pago.simbolo)){
             pagos_monedas[pago.simbolo] = pagos_monedas[pago.simbolo] + (parseFloat(pago.cantidad) * parseFloat(pago.precio_costo));
         } else {
             pagos_monedas[pago.simbolo] = (parseFloat(pago.cantidad) * parseFloat(pago.precio_costo));
         }
-
     });
     return <div>{Object.keys(pagos_monedas).map((key) => {
         return <div key={key}>{formatoMoneda(pagos_monedas[key], key)}</div>
     })}</div>
 }
 
-const   isExpandableRow=()=> {
+const isExpandableRow = () => {
     return true;
 };
+
 function proveedorFormater(cell, row) {
-  if (row.proveedor !== null){
-    return <div>{row.proveedor.nombre}</div>
-  }
+    if (row.proveedor !== null){
+        return <div>{row.proveedor.nombre}</div>
+    }
 }
+
 function categoriaFormater(cell, row) {
-  if (row.categoria !== null){
-    return <div>{row.categoria.nombre}</div>
-  }
+    if (row.categoria !== null){
+        return <div>{row.categoria.nombre}</div>
+    }
 }
 
 function pagoFormater(cell) {
     return <div>{cell ? 'Pago inmediato' : 'Pago al crédito'}</div>
 }
+
 function entregadaFormater(cell) {
     return cell ? <i className="icons-oc text-verde-claro fa fa-check-circle" aria-hidden="true" /> :
         <i className="icons-oc text-celeste fa fa-times-circle"/>
 }
+
 function pago_completoFormater(cell) {
     return cell ? <i className="icons-oc text-verde-claro fa fa-check-circle" aria-hidden="true" /> :
         <i className="icons-oc text-celeste fa fa-times-circle"/>
 }
+
 function cellTachado(cell, row) {
     if(row.anulado){
         return {textDecoration: "line-through", whiteSpace: 'normal', }
@@ -77,7 +90,33 @@ function cellTachado(cell, row) {
 }
 
 export default class ComprasGrid extends React.Component {
+
+    // Función mejorada para gestionar el estado del módulo
+    checkModuleAndResetIfNeeded = () => {
+        const lastModule = sessionStorage.getItem(MODULE_KEY);
+
+        // Si estamos en el módulo de compras
+        if (isInComprasModule()) {
+            // Si venimos de otro módulo diferente, resetear
+            if (lastModule && lastModule !== COMPRAS_MODULE) {
+                sessionStorage.removeItem(STORAGE_KEY);
+                console.log(`Reseteando página de compras. Venimos de: ${lastModule}`);
+            }
+
+            // Marcar que estamos en compras
+            sessionStorage.setItem(MODULE_KEY, COMPRAS_MODULE);
+        }
+    }
+
+    handlePageChange = (page, sizePerPage) => {
+        console.log('Guardando página de compras:', page);
+        sessionStorage.setItem(STORAGE_KEY, page.toString());
+        this.props.listar(page, sizePerPage);
+    }
+
     abrirDialog = (id) => {
+        const currentPage = this.props.page || 1;
+        sessionStorage.setItem(STORAGE_KEY, currentPage.toString());
 
         Swal({
             title: 'Anular compra',
@@ -99,9 +138,41 @@ export default class ComprasGrid extends React.Component {
     };
 
     componentWillMount() {
-        this.props.listar();
+        // Verificar módulo y resetear si es necesario
+        this.checkModuleAndResetIfNeeded();
+
+        // Restaurar página guardada (solo si seguimos en compras)
+        const savedPage = sessionStorage.getItem(STORAGE_KEY);
+        const pageToLoad = savedPage ? parseInt(savedPage) : 1;
+
+        console.log(`Cargando página ${pageToLoad} de compras`);
+
+        this.props.listar(pageToLoad);
         this.props.getEmpresasSelect();
     }
+
+    componentWillUnmount() {
+        // Solo resetear si realmente salimos del módulo de compras
+        // Usar setTimeout para verificar después de que cambie la URL
+        setTimeout(() => {
+            if (!isInComprasModule()) {
+                sessionStorage.setItem(MODULE_KEY, 'other');
+                console.log('Salimos del módulo de compras');
+            }
+        }, 100);
+    }
+
+    navegarAEditar = (id) => {
+        const currentPage = this.props.page || 1;
+        sessionStorage.setItem(STORAGE_KEY, currentPage.toString());
+
+        if (this.props.history) {
+            this.props.history.push(`/compra/editar/${id}`);
+        } else {
+            window.location.href = `#/compra/${id}/`;
+        }
+    }
+
     expandComponent = (row) => {
         let data = row && row.productos ? row.productos : [];
         let multiplo = _.cloneDeep(data);
@@ -109,16 +180,16 @@ export default class ComprasGrid extends React.Component {
             const sub = parseInt(row.cantidad) * parseFloat(row.precio_costo);
             return  <div>{formatoMoneda(sub, row.simbolo)}</div>
         };
-        // multiplo.splice(0,1);
+
         return(
             <div className=" tabla-adentro">
                 <BootstrapTable
                     headerStyle={ { backgroundColor: '#e24647' } }
                     data={ multiplo }>
                     <TableHeaderColumn
-                                hidden
-                                isKey={true}
-                                dataField="id" dataSort>Id</TableHeaderColumn>
+                        hidden
+                        isKey={true}
+                        dataField="id" dataSort>Id</TableHeaderColumn>
                     <TableHeaderColumn
                         editable={ false }
                         dataField="producto_nombre" dataSort>Producto</TableHeaderColumn>
@@ -140,55 +211,61 @@ export default class ComprasGrid extends React.Component {
                         columnClassName='text-derecha'
                         className='text-center'
                         dataField="subtotal" dataSort >Subtotal</TableHeaderColumn>
-
                 </BootstrapTable>
             </div>
         )
     };
+
     render(){
-        const { data, page, me,empresasSelect, loader_c } = this.props;
-        const { listar, search, filtro, borrar } = this.props;
+        const { data, page, me, empresasSelect, loader_c } = this.props;
+        const { search, filtro, borrar } = this.props;
+
         return(
-
             <div className="row d-flex justify-content-center">
-
-
                 <div className="col-sm-12">
-
                     <HeaderSimple
-                                instruccion="¡Ingresa una compra!"
-                                texto="Agregar compra"
-                                ruta="/compra/crear"
-                                />
+                        instruccion="¡Ingresa una compra!"
+                        texto="Agregar compra"
+                        ruta="/compra/crear"
+                    />
 
                     <div className="grid-container">
                         <div className="grid-title d-flex flex-row borde-superior">
                             <ToolbarCompras
-                                    buscar={search}
-                                    titulo={"Compras"}
-                                    usuario={me}
-                                    empresas={empresasSelect}
-                                    cambiarFiltro={filtro}
-                                    cambiarPendientes={this.props.set_filtro_pendites}
-                                    filtro_pendientes={this.props.filtro_pendientes}
-                                    filtro={this.props.filtro_producto}
-                                    buscador={this.props.buscador}
-                                    total={data.tTotal}
-                                    pagos={data.tPagos}
-                                    />
+                                buscar={search}
+                                titulo={"Compras"}
+                                usuario={me}
+                                empresas={empresasSelect}
+                                cambiarFiltro={filtro}
+                                cambiarPendientes={this.props.set_filtro_pendites}
+                                filtro_pendientes={this.props.filtro_pendientes}
+                                filtro={this.props.filtro_producto}
+                                buscador={this.props.buscador}
+                                total={data.tTotal}
+                                pagos={data.tPagos}
+                            />
                         </div>
 
-                        <Table onPageChange={listar}
-                                data={data}
-                                loading={loader_c}
-                                expandableRow={isExpandableRow}
-                                expandComponent={this.expandComponent}
-                                page={page}>
+                        <Table
+                            onPageChange={this.handlePageChange}
+                            data={data}
+                            loading={loader_c}
+                            expandableRow={isExpandableRow}
+                            expandComponent={this.expandComponent}
+                            page={page}>
+
                             <TableHeaderColumn
                                 dataField="id"
                                 isKey={true}
                                 dataAlign="center"
-                                dataFormat={activeFormatter({ editar: '/compra', eliminarModal: this.abrirDialog, popover:'getRow'})}>Acciones</TableHeaderColumn>
+                                dataFormat={activeFormatter({
+                                    editar: '/compra',
+                                    eliminarModal: this.abrirDialog,
+                                    popover:'getRow'
+                                })}>
+                                Acciones
+                            </TableHeaderColumn>
+
                             <TableHeaderColumn
                                 tdStyle={cellTachado}
                                 dataField="numero_oc" dataSort>No. Orden</TableHeaderColumn>
@@ -196,7 +273,7 @@ export default class ComprasGrid extends React.Component {
                                 tdStyle={cellTachado}
                                 dataField="categoria" dataAlign="center"
                                 dataFormat={categoriaFormater}>Categoria</TableHeaderColumn>
-                             <TableHeaderColumn
+                            <TableHeaderColumn
                                 tdStyle={cellTachado} thStyle={BreakLine}
                                 dataFormat={proveedorFormater}
                                 dataField="proveedor" dataSort>Proveedor</TableHeaderColumn>
@@ -205,7 +282,7 @@ export default class ComprasGrid extends React.Component {
                                 thStyle={BreakLine}
                                 dataFormat={dateFormatterTimeZone}
                                 dataField="fecha" dataSort>Fecha</TableHeaderColumn>
-                             <TableHeaderColumn
+                            <TableHeaderColumn
                                 tdStyle={cellTachado}
                                 thStyle={BreakLine}
                                 dataFormat={pagoFormater}

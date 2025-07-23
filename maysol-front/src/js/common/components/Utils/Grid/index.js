@@ -52,7 +52,7 @@ export default class Grid extends Component {
         const options = {
             sizePerPage: 10,
             hideSizePerPage: true,
-            paginationSize: 3,
+            paginationSize: 20,
             alwaysShowAllBtns: true,
             noDataText: loading ? 'Cargando...' : 'No hay datos',
             page,

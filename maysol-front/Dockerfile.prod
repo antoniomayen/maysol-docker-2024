@@ -1,0 +1,32 @@
+# Dockerfile.prod para frontend (versión simple)
+# Stage 1: Build de la aplicación
+FROM node:10.23-alpine AS build
+
+WORKDIR /app
+
+# Copiar archivos de configuración
+COPY package*.json ./
+
+# Instalar dependencias ignorando scripts de postinstall problemáticos
+RUN npm install --ignore-scripts
+
+# Copiar código fuente
+COPY . .
+
+# Construir la aplicación para producción
+RUN npm run build
+
+# Stage 2: Servir con nginx
+FROM nginx:1.26.0-alpine
+
+# Copiar archivos construidos
+COPY --from=build /app/docroot /usr/share/nginx/html
+
+# Copiar configuración de nginx personalizada
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Exponer puerto
+EXPOSE 80
+
+# Comando por defecto
+CMD ["nginx", "-g", "daemon off;"]
